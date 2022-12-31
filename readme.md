@@ -5,10 +5,10 @@ This is an HTTP server that responds to requests for files on Arweave addressed 
 The URL pattern is as simple as `{Host}/{File-Hash}`
 
 ## For example
+This is an image on Arweave:
 ```
 https://svc.permacast.io/e89000c615a420acbfd6b1f58558e4be5625f1bd792892821384756a5cc44ef3
 ```
-Returns
 ![Image on Arweave](https://svc.permacast.io/e89000c615a420acbfd6b1f58558e4be5625f1bd792892821384756a5cc44ef3)
 
 ## Utility
