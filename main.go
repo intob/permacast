@@ -20,6 +20,7 @@ func main() {
 
 func handleRoot(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {
+		log.Printf("GET %s", r.URL.Path)
 		http.Error(w, "method not supported", http.StatusBadRequest)
 		return
 	}
