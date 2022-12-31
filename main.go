@@ -23,15 +23,5 @@ func handleRoot(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "method not supported", http.StatusBadRequest)
 		return
 	}
-	// set default cache header
-	w.Header().Set("Cache-Control", "public, max-age=3600")
-	if r.URL.Path == "/" {
-		http.ServeFile(w, r, "landing/index.html")
-		return
-	}
-	if r.URL.Path == "/styles.css" {
-		http.ServeFile(w, r, "landing/styles.css")
-		return
-	}
 	handleGetData(w, r)
 }
