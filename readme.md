@@ -2,7 +2,8 @@
 This makes content on Arweave easier to consume.
 
 This is an HTTP server that responds to requests for files on Arweave, addressed by their File-Hash.
-The URL pattern is as simple as `{Host}/{File-Hash}`
+
+The URL pattern is as simple as `{Host}/{File-Hash}`.
 
 ## For example
 This is an image on Arweave:
