@@ -1,22 +1,26 @@
 # Permacast-svc
-This makes content on Arweave easier to consume.
+This makes consuming content on Arweave easier.
 
-This is an HTTP server that responds to requests for files on Arweave, addressed by their File-Hash.
+This is an HTTP server that responds to requests for files on Arweave, addressed by the transaction id.
 
-The URL pattern is as simple as `{Host}/{File-Hash}`.
+The URL pattern is as simple as `{host}/{txId}`.
+
+I have put this service behind Cloudflare's CDN to reduce latency & solve rate-limits. I have also deployed the app in multiple availability zones. This service is available at `https://svc.permacast.io`.
 
 ## For example
 This is an image on Arweave:
 ```
-https://svc.permacast.io/e89000c615a420acbfd6b1f58558e4be5625f1bd792892821384756a5cc44ef3
+https://svc.permacast.io/kpqV8wgI7BgIe2asY-s2eoAXWURwcsQMfZ7dignX3ME
 ```
-![Image on Arweave](https://svc.permacast.io/e89000c615a420acbfd6b1f58558e4be5625f1bd792892821384756a5cc44ef3)
+![Image on Arweave](https://svc.permacast.io/kpqV8wgI7BgIe2asY-s2eoAXWURwcsQMfZ7dignX3ME)
 
 ## Utility
-The host can be swapped out for any deployment or implementation of this service, making it essentially just a gateway for content on Arweave.
+This service solves some issues with the Arweave endpoint to get transaction data.
 
-## Perf
-I have put this service behind Cloudflare's CDN to reduce latency & solve rate-limits. I have also deployed the app in multiple availability zones.
+The current endpoint does not respect the Content-Type tag. For example, go to:
+```
+https://arweave.net/tx/kpqV8wgI7BgIe2asY-s2eoAXWURwcsQMfZ7dignX3ME/data
+```
 
 ## Deployment
 ### 1. Clone
