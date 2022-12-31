@@ -1,0 +1,41 @@
+kill_signal = "SIGINT"
+kill_timeout = 5
+
+[build]
+  builder = "paketobuildpacks/builder:base"
+  buildpacks = ["gcr.io/paketo-buildpacks/go"]
+
+[env]
+  PORT = "1992"
+
+[experimental]
+  auto_rollback = true
+
+[[services]]
+  internal_port = 1992
+  processes = ["app"]
+  protocol = "tcp"
+
+  [services.concurrency]
+    hard_limit = 25
+    soft_limit = 20
+    type = "connections"
+
+  [[services.ports]]
+    force_https = true
+    handlers = ["http"]
+    port = 80
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
+
+  [[services.http_checks]]
+      interval = 10000
+      grace_period = "5s"
+      method = "get"
+      path = "/e89000c615a420acbfd6b1f58558e4be5625f1bd792892821384756a5cc44ef3"
+      protocol = "https"
+      restart_limit = 0
+      timeout = 2000
+      tls_skip_verify = false
