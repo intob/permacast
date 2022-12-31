@@ -19,8 +19,8 @@ The host can be swapped out for any deployment or implementation of this service
 I have put this service behind Cloudflare's CDN to reduce latency & solve rate-limits. I have also deployed the app in multiple availability zones.
 
 ## Deployment
-### 1. Deploy on fly.io
-Deploy the application & allocate an v4 IP address.
+### 1. Deploy
+Deploy the application. I'm using Fly, but you can deploy it anywhere.
 ```bash
 flyctl launch
 ```
