@@ -9,13 +9,13 @@ The URL pattern is as simple as `{Host}/{File-Hash}`
 https://svc.permacast.io/e89000c615a420acbfd6b1f58558e4be5625f1bd792892821384756a5cc44ef3
 ```
 Returns
-[Image on Arweave](https://svc.permacast.io/e89000c615a420acbfd6b1f58558e4be5625f1bd792892821384756a5cc44ef3)
+![Image on Arweave](https://svc.permacast.io/e89000c615a420acbfd6b1f58558e4be5625f1bd792892821384756a5cc44ef3)
 
-## Why
+## Utility
 The host can be swapped out for any deployment or implementation of this service, making it essentially just a gateway to content on Arweave.
 
 ## Perf
-I have put this service behind Cloudflare's CDN to reduce latency, and have origins deployed in multiple availability zones.
+I have put this service behind Cloudflare's CDN to reduce latency & solve rate-limits. I have also deployed the app in multiple availability zones.
 
 ## Deployment
 ### 1. Deploy on fly.io
