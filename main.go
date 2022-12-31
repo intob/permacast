@@ -28,6 +28,10 @@ func main() {
 
 func handleGet(w http.ResponseWriter, r *http.Request) {
 	fileHash := strings.TrimPrefix(r.URL.Path, "/")
+	if fileHash == "" {
+		http.Error(w, "missing File-Hash in path", http.StatusBadRequest)
+		return
+	}
 	qRes, err := makeQuery(fileHash)
 	if err != nil {
 		werr := fmt.Sprintf("failed to query Arweave: %s", err)
@@ -36,7 +40,7 @@ func handleGet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if len(qRes.Data.Transactions.Edges) != 1 {
-		http.Error(w, "did not find 1 result for given File-Hash", http.StatusNotFound)
+		http.Error(w, "nothing found for given File-Hash", http.StatusNotFound)
 		return
 	}
 	node := qRes.Data.Transactions.Edges[0].Node
