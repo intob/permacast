@@ -19,13 +19,18 @@ The host can be swapped out for any deployment or implementation of this service
 I have put this service behind Cloudflare's CDN to reduce latency & solve rate-limits. I have also deployed the app in multiple availability zones.
 
 ## Deployment
-### 1. Deploy
+### 1. Clone
+```bash
+git clone https://github.com/intob/permacast-svc
+```
+
+### 2. Deploy
 Deploy the application. I'm using Fly, but you can deploy it anywhere.
 ```bash
 flyctl launch
 ```
 
-### 2. SSL & DNS (optional)
+### 3. SSL & DNS (optional)
 If not using Fly's domain `{your-app}.fly.dev`, create an SSL certificate for your own domain.
 
 You will also need to allocate a v4 IP addresss:
