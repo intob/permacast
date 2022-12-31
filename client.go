@@ -41,13 +41,12 @@ type Tag struct {
 	Value string `json:"value"`
 }
 
-func makeQuery(fileHash string) (*Result, error) {
+func makeQuery(txId string) (*Result, error) {
 	q := &Query{fmt.Sprintf(`query {
 			transactions (
-				first: 100,
+				ids: ["%s"]
 				tags: [
-					{ name: "Protocol", values: ["permacast"] },
-					{ name: "File-Hash", values: ["%s"] }
+					{ name: "Protocol", values: ["permacast"] }
 				]) {
 				edges {
 					node {
@@ -59,7 +58,7 @@ func makeQuery(fileHash string) (*Result, error) {
 					}
 				}
 			}
-	}`, fileHash)}
+	}`, txId)}
 
 	qb, err := json.Marshal(q)
 	if err != nil {

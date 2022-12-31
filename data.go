@@ -13,13 +13,13 @@ import (
 func handleGetData(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Cache-Control", "public, max-age=604800, immutable")
 
-	fileHash := strings.TrimPrefix(r.URL.Path, "/")
-	if fileHash == "" {
-		http.Error(w, "missing File-Hash in path", http.StatusBadRequest)
+	txId := strings.TrimPrefix(r.URL.Path, "/")
+	if txId == "" {
+		http.Error(w, "missing txId in path", http.StatusBadRequest)
 		return
 	}
 
-	qRes, err := makeQuery(fileHash)
+	qRes, err := makeQuery(txId)
 	if err != nil {
 		werr := fmt.Sprintf("failed to query Arweave: %s", err)
 		http.Error(w, werr, http.StatusInternalServerError)
@@ -27,17 +27,20 @@ func handleGetData(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if len(qRes.Data.Transactions.Edges) != 1 {
-		http.Error(w, "nothing found for given File-Hash", http.StatusNotFound)
+	if len(qRes.Data.Transactions.Edges) == 0 {
+		http.Error(w, "no transaction found for given txId", http.StatusNotFound)
 		return
 	}
+
 	node := qRes.Data.Transactions.Edges[0].Node
+
 	contentType, err := getContentType(node.Tags)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		log.Printf("unable to get Content-Type from tags: %s", err.Error())
 		return
 	}
+
 	dataUrl := ""
 	if contentType == "text/plain" {
 		dataUrl = fmt.Sprintf("http://arweave.net/tx/%s/data", node.Id)
@@ -54,6 +57,7 @@ func handleGetData(w http.ResponseWriter, r *http.Request) {
 		}
 		dataUrl = fmt.Sprintf("http://arweave.net/tx/%s/data.%s", node.Id, subtype)
 	}
+
 	resp, err := http.Get(dataUrl)
 	if err != nil {
 		http.Error(w, fmt.Sprintf("failed to get transaction data: %s", err), http.StatusInternalServerError)
@@ -61,7 +65,10 @@ func handleGetData(w http.ResponseWriter, r *http.Request) {
 	}
 	buf := new(bytes.Buffer)
 	buf.ReadFrom(resp.Body)
-	w.Header().Set("Content-Type", contentType)
+
+	for _, t := range node.Tags {
+		w.Header().Set(t.Name, t.Value)
+	}
 	w.Header().Set("Content-Length", strconv.Itoa(buf.Len()))
 	w.Write(buf.Bytes())
 }
